@@ -1,8 +1,18 @@
 # Chart & Table Code Patterns
 
-Production-ready PptxGenJS code for every chart type used in institutional research presentations. All examples use the institutional color palette (Navy `002D72`, Green `00875A`, Gold `B3995D`).
+Production-ready PptxGenJS code for every chart type used in institutional research presentations. All examples use **theme variables** from the selected theme object (see design-specs.md for theme definitions).
 
 **CRITICAL**: Never use `#` prefix with hex colors in PptxGenJS -- causes file corruption.
+
+## Theme Variable Usage
+
+All chart code references `theme.*` variables. Define the theme object at the top of your JS file:
+
+```javascript
+const theme = THEMES['wall-street']; // or 'tech-forward', 'clinical', 'vibrant', 'industrial'
+```
+
+Key mappings: `theme.primary`, `theme.accent`, `theme.tertiary`, `theme.negative`, `theme.chartColors` (array of 6), `theme.bodyText`, `theme.secondaryText`, `theme.lightGray`, `theme.bgGray`.
 
 ## Table of Contents
 1. [Bar Chart - Market Size](#bar-chart---market-size)
@@ -34,23 +44,23 @@ slide.addChart(pptx.charts.BAR, [
   ...chartArea,           // from placeholder
   barDir: 'col',          // vertical bars
   barGrouping: 'clustered',
-  chartColors: ['002D72'],
+  chartColors: [theme.primary],
   showValue: true,
   dataLabelPosition: 'outEnd',
-  dataLabelColor: '333333',
+  dataLabelColor: theme.bodyText,
   dataLabelFontSize: 9,
   showLegend: false,
-  valGridLine: { style: 'dash', color: 'CCCCCC', size: 0.5 },
-  catAxisLabelColor: '666666',
+  valGridLine: { style: 'dash', color: theme.lightGray, size: 0.5 },
+  catAxisLabelColor: theme.secondaryText,
   catAxisLabelFontSize: 9,
-  valAxisLabelColor: '666666',
+  valAxisLabelColor: theme.secondaryText,
   valAxisLabelFontSize: 9,
   valAxisMinVal: 0,
   valAxisMajorUnit: 50,
   showCatAxisTitle: false,
   showValAxisTitle: true,
   valAxisTitle: 'Market Size ($B)',
-  valAxisTitleColor: '666666',
+  valAxisTitleColor: theme.secondaryText,
   valAxisTitleFontSize: 9,
 });
 ```
@@ -72,12 +82,12 @@ slide.addChart(pptx.charts.BAR, [
   ...chartArea,
   barDir: 'col',
   barGrouping: 'stacked',
-  chartColors: ['002D72', '5B9BD5'], // Solid navy for actual, lighter blue for forecast
+  chartColors: [theme.primary, theme.chartColors[3]], // Solid primary for actual, lighter for forecast
   showValue: true,
   dataLabelPosition: 'outEnd',
   showLegend: true,
   legendPos: 'b',
-  valGridLine: { style: 'dash', color: 'CCCCCC' },
+  valGridLine: { style: 'dash', color: theme.lightGray },
 });
 ```
 
@@ -103,15 +113,15 @@ slide.addChart(pptx.charts.BAR, [
   ...chartArea,
   barDir: 'col',
   barGrouping: 'clustered',
-  chartColors: ['002D72', '00875A'],
+  chartColors: [theme.primary, theme.accent],
   showValue: true,
   dataLabelPosition: 'outEnd',
   dataLabelFontSize: 8,
-  dataLabelColor: '333333',
+  dataLabelColor: theme.bodyText,
   showLegend: true,
   legendPos: 'b',
   legendFontSize: 9,
-  valGridLine: { style: 'dash', color: 'CCCCCC' },
+  valGridLine: { style: 'dash', color: theme.lightGray },
   catAxisLabelFontSize: 9,
   valAxisLabelFontSize: 9,
   showValAxisTitle: true,
@@ -138,10 +148,10 @@ slide.addChart(pptx.charts.BAR, [
 ], {
   ...chartArea,
   barDir: 'bar',           // horizontal
-  chartColors: ['002D72'],
+  chartColors: [theme.primary],
   showValue: true,
   dataLabelPosition: 'outEnd',
-  dataLabelColor: '333333',
+  dataLabelColor: theme.bodyText,
   dataLabelFontSize: 9,
   showLegend: false,
   valGridLine: { style: 'none' },
@@ -171,15 +181,15 @@ slide.addChart(pptx.charts.LINE, [
   lineSmooth: false,
   lineDataSymbol: 'circle',
   lineDataSymbolSize: 8,
-  chartColors: ['002D72'],
+  chartColors: [theme.primary],
   showValue: true,
   dataLabelPosition: 't',
-  dataLabelColor: '002D72',
+  dataLabelColor: theme.primary,
   dataLabelFontSize: 9,
   showLegend: false,
-  valGridLine: { style: 'dash', color: 'CCCCCC' },
-  catAxisLabelColor: '666666',
-  valAxisLabelColor: '666666',
+  valGridLine: { style: 'dash', color: theme.lightGray },
+  catAxisLabelColor: theme.secondaryText,
+  valAxisLabelColor: theme.secondaryText,
   valAxisMinVal: 0,
   showValAxisTitle: true,
   valAxisTitle: 'Revenue ($B)',
@@ -215,11 +225,11 @@ slide.addChart(pptx.charts.LINE, [
   lineSmooth: false,
   lineDataSymbol: 'circle',
   lineDataSymbolSize: 6,
-  chartColors: ['002D72', '00875A', 'B3995D'],
+  chartColors: [theme.primary, theme.accent, theme.tertiary],
   showLegend: true,
   legendPos: 'b',
   legendFontSize: 9,
-  valGridLine: { style: 'dash', color: 'CCCCCC' },
+  valGridLine: { style: 'dash', color: theme.lightGray },
   showValAxisTitle: true,
   valAxisTitle: 'Revenue ($B)',
   valAxisMinVal: 0,
@@ -245,7 +255,7 @@ slide.addChart(pptx.charts.PIE, [
   showLegend: true,
   legendPos: 'r',
   legendFontSize: 10,
-  chartColors: ['002D72', '00875A', 'B3995D', '5B9BD5', '7F7F7F'],
+  chartColors: theme.chartColors,
   dataLabelColor: 'FFFFFF',
   dataLabelFontSize: 10,
 });
@@ -278,13 +288,13 @@ slide.addChart(pptx.charts.BAR, [
   ...chartArea,
   barDir: 'col',
   barGrouping: 'stacked',
-  chartColors: ['002D72', '00875A', 'B3995D'],
+  chartColors: [theme.primary, theme.accent, theme.tertiary],
   showValue: true,
   dataLabelFontSize: 8,
   dataLabelColor: 'FFFFFF',
   showLegend: true,
   legendPos: 'b',
-  valGridLine: { style: 'dash', color: 'CCCCCC' },
+  valGridLine: { style: 'dash', color: theme.lightGray },
   showValAxisTitle: true,
   valAxisTitle: 'Revenue ($B)',
 });
@@ -313,15 +323,15 @@ slide.addChart(pptx.charts.SCATTER, [
   lineSize: 0,
   lineDataSymbol: 'circle',
   lineDataSymbolSize: 12,
-  chartColors: ['002D72'],
+  chartColors: [theme.primary],
   showCatAxisTitle: true,
   catAxisTitle: 'Market Share (%)',
   showValAxisTitle: true,
   valAxisTitle: 'Gross Margin (%)',
-  catAxisLabelColor: '666666',
-  valAxisLabelColor: '666666',
-  valGridLine: { style: 'dash', color: 'CCCCCC' },
-  catGridLine: { style: 'dash', color: 'CCCCCC' },
+  catAxisLabelColor: theme.secondaryText,
+  valAxisLabelColor: theme.secondaryText,
+  valGridLine: { style: 'dash', color: theme.lightGray },
+  catGridLine: { style: 'dash', color: theme.lightGray },
 });
 
 // Add company labels manually
@@ -332,7 +342,7 @@ companies.forEach((c, i) => {
     x: chartArea.x + xPct * chartArea.w + 0.1,
     y: chartArea.y + yPct * chartArea.h - 0.15,
     w: 1.2, h: 0.3,
-    fontSize: 8, color: '333333', bold: true,
+    fontSize: 8, color: theme.bodyText, bold: true,
   });
 });
 ```
@@ -364,13 +374,13 @@ slide.addChart(
   {
     ...chartArea,
     barDir: 'col',
-    chartColors: ['002D72', 'C8102E'],
+    chartColors: [theme.primary, theme.negative],
     showValue: true,
     dataLabelFontSize: 8,
     showLegend: true,
     legendPos: 'b',
     catAxisLabelFontSize: 9,
-    valGridLine: { style: 'dash', color: 'CCCCCC' },
+    valGridLine: { style: 'dash', color: theme.lightGray },
     secondaryValAxis: true,
     showValAxisTitle: true,
     valAxisTitle: 'Market Size ($B)',
@@ -389,10 +399,10 @@ slide.addChart(
 ### Peer Benchmarking Table
 
 ```javascript
-const headerStyle = { fill: { color: '002D72' }, color: 'FFFFFF', bold: true, fontSize: 10, align: 'center', valign: 'middle' };
-const cellStyle = { fontSize: 10, color: '333333', valign: 'middle' };
+const headerStyle = { fill: { color: theme.primary }, color: 'FFFFFF', bold: true, fontSize: 10, align: 'center', valign: 'middle' };
+const cellStyle = { fontSize: 10, color: theme.bodyText, valign: 'middle' };
 const numStyle = { ...cellStyle, align: 'right' };
-const altRow = { fill: { color: 'F5F5F5' } };
+const altRow = { fill: { color: theme.bgGray } };
 
 const tableData = [
   // Header row
@@ -408,7 +418,7 @@ const tableData = [
   [
     { text: 'NVIDIA', options: { ...cellStyle, bold: true } },
     { text: '$130.5', options: numStyle },
-    { text: '114.2%', options: { ...numStyle, color: '00875A' } },
+    { text: '114.2%', options: { ...numStyle, color: theme.accent } },
     { text: '65.2%', options: numStyle },
     { text: '25.4x', options: numStyle },
     { text: '58.2x', options: numStyle },
@@ -427,17 +437,17 @@ const tableData = [
 slide.addTable(tableData, {
   x: 0.5, y: 1.2, w: 9, h: 0.1,  // h auto-adjusts
   colW: [1.8, 1.4, 1.2, 1.4, 1.2, 1.0],
-  border: { pt: 0.5, color: 'CCCCCC' },
+  border: { pt: 0.5, color: theme.lightGray },
   autoPage: false,
 });
 ```
 
 ### Conditional Formatting Rules
 
-- **Positive values** (growth, margins above average): Color `00875A` (green)
-- **Negative values** (declines, below average): Color `C8102E` (red)
-- **Best-in-class**: Bold + green
-- **Worst-in-class**: Red text
+- **Positive values** (growth, margins above average): Color `theme.accent` (green)
+- **Negative values** (declines, below average): Color `theme.negative` (red)
+- **Best-in-class**: Bold + accent color
+- **Worst-in-class**: Negative color text
 - **Numbers**: Always right-aligned
 - **Company names**: Left-aligned, bold
 
@@ -468,7 +478,7 @@ slide.addChart(pptx.charts.BAR, [
   ...chartArea,
   barDir: 'col',
   barGrouping: 'stacked',
-  chartColors: ['FFFFFF', '002D72'],  // Base invisible (white), value navy
+  chartColors: ['FFFFFF', theme.primary],  // Base invisible (white), value primary
   showValue: true,
   dataLabelFontSize: 9,
   dataLabelColor: 'FFFFFF',
@@ -478,4 +488,5 @@ slide.addChart(pptx.charts.BAR, [
   valAxisHidden: true,
 });
 // Note: Base series uses white color to appear invisible against white bg
+// For dark themes (tech-forward), use theme.darkBg instead of 'FFFFFF' for base
 ```
